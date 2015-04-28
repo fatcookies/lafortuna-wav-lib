@@ -15,9 +15,12 @@ Play WAV audio with your LaFortuna by arp1g13! Works with RIOS!
 ### How to convert audio to correct format
 There are a few of options:
 
-1. Install [sox](http://sox.sourceforge.net/)
-2. a) Use [mono.sh](mono.sh) in a directory containing audio to convert the sound to a mono recording with the highest quality (16KHz sample rate). Windows users can adapt this easily to a batch script.
-b) Use [stereo.sh](stereo.sh) in a directory containg audtio to convert the sound to a STEREO recording with an 8KHz sample rate.
+1. Install [sox](http://sox.sourceforge.net/) for options 2 and 3
+
+2. Use [mono.sh](mono.sh) in a directory containing audio to convert the sound to a mono recording with the highest quality (16KHz sample rate). Windows users can adapt this easily to a batch script.
+
+2. Use [stereo.sh](stereo.sh) in a directory containg audtio to convert the sound to a STEREO recording with an 8KHz sample rate.
+
 3. Use audio editing software (windows sound recorder/audacity etc) to convert audio to PCM 8-bit unsigned samples at 8KHz sample rate.
 
 
