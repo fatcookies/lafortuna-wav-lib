@@ -30,6 +30,3 @@ In general:
 4. Check if playback is in progress using audio_isplaying()
 5. To end playback early use audio_close()
 
-### Known bugs
-Unfortunately due to the PCM decoding implementation, the actual sample rate is 8Mhz/1024, which means around 200 samples a second are never played (even if they are loaded from the file). This introduces a slightly irritating clicking noise to the sound output which occurs twice a second, sorry about that :(
-

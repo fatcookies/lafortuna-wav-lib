@@ -34,8 +34,8 @@ OBJFILES     := $(patsubst %.c,$(BUILD_DIR)/%.o,$(notdir $(CFILES)))
 upld: $(BUILD_DIR)/main.hex
 	$(info )
 	$(info =========== ${BOARD} =============)
-	sudo dfu-programmer $(MCU) erase
-	sudo dfu-programmer $(MCU) flash $(BUILD_DIR)/main.hex
+	dfu-programmer $(MCU) erase
+	dfu-programmer $(MCU) flash $(BUILD_DIR)/main.hex
 
 prom: $(BUILD_DIR)/main.eep upld
 	$(info ======== EEPROM: ${BOARD} ========)

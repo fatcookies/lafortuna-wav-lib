@@ -126,6 +126,7 @@ FRESULT audio_load(FIL* File) {
 		
 		/* If at end of buffer, read more of file */
 		if(sample >= BUFFER_SIZE) {
+            sample = 0;
 			status = f_read(File, &pcm_samples, BUFFER_SIZE ,&read);
 			if(status) {
 				audio_close();
