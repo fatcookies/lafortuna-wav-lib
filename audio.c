@@ -12,6 +12,9 @@
 #include <stdint.h>
 #include <avr/interrupt.h>
 
+/*Number of channels this piece of audio contains (1=mono, 2=stereo) */
+uint16_t number_channels;
+
 /* The number of 8bit PCM samples to take a second */
 uint32_t sample_rate;
 
@@ -72,11 +75,9 @@ void pwm_init(void) {
 	sei();
 }
 
-/* Replicate same behavior on LCH as RCH */
+/* Left Channel behavior is handled in Right channel interrupt TIMER1_OVF_vect */
 ISR(TIMER3_OVF_vect)
 {
-	OCR3A = OCR1A;
-	
 } 
 
 /* Load a sample into PWM register*/
@@ -85,7 +86,12 @@ ISR(TIMER1_OVF_vect)
          sample_count--;
          if (sample_count == 0) {
              sample_count = sample_interval;           
+             
+             /*Load sample into RCH compare register */           
              OCR1A = pcm_samples[sample++];
+
+             /* If stereo, load another sample, otherwise LCH = RCH*/
+             OCR3A = number_channels == 2 ? pcm_samples[sample++] : OCR1A;
              
              if(sample > BUFFER_SIZE) {
 				sample=0;
@@ -123,6 +129,10 @@ FRESULT audio_load(FIL* File) {
 	
 	f_lseek(File,44);
 	f_read(File, &pcm_samples, BUFFER_SIZE ,&read);
+
+	f_lseek(File,22);
+	f_read(File, &number_channels, sizeof number_channels ,&read);
+	SWAP_UINT16(number_channels);
 
 	f_lseek(File,24);
 	f_read(File, &sample_rate, sizeof sample_rate ,&read);

@@ -19,6 +19,7 @@
 #include <stdint.h>
 #endif
 
+#define SWAP_UINT16(x) ((((x) >> 8) & 0x00FF) | (((x) << 8) & 0xFF00))
 #define SWAP_UINT32(x) (((x) >> 24) | (((x) & 0x00FF0000) >> 8) | (((x) & 0x0000FF00) << 8) | ((x) << 24))
 #define BUFFER_SIZE 4048
 
