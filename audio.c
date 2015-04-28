@@ -12,6 +12,11 @@
 #include <stdint.h>
 #include <avr/interrupt.h>
 
+/* The number of 8bit PCM samples to take a second */
+uint32_t sample_rate;
+
+/* How often to take samples (32000/sample_count) = rate */
+uint8_t sample_interval;
 
 /* Current sample playing from the buffer */
 volatile uint16_t sample;
@@ -62,8 +67,8 @@ void pwm_init(void) {
     TCNT3 = 0;
     TIMSK3 |= (1<<TOIE3);
     
-    /* Scale sample rate from PWM frequency (32k/SAMPLE)= new rate */
-    sample_count = SAMPLE;
+    /* Scale sample rate from PWM frequency (32k/sample_interval)= new rate */
+    sample_count = sample_interval;
 	sei();
 }
 
@@ -79,7 +84,7 @@ ISR(TIMER1_OVF_vect)
 {		
          sample_count--;
          if (sample_count == 0) {
-             sample_count = SAMPLE;           
+             sample_count = sample_interval;           
              OCR1A = pcm_samples[sample++];
              
              if(sample > BUFFER_SIZE) {
@@ -118,6 +123,11 @@ FRESULT audio_load(FIL* File) {
 	
 	f_lseek(File,44);
 	f_read(File, &pcm_samples, BUFFER_SIZE ,&read);
+
+	f_lseek(File,24);
+	f_read(File, &sample_rate, sizeof sample_rate ,&read);
+	SWAP_UINT32(sample_rate);
+	sample_interval = 32000/sample_rate;
 	
 	pwm_init();
 	playing = 1;

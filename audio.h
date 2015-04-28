@@ -19,9 +19,8 @@
 #include <stdint.h>
 #endif
 
-#define SAMPLE_RATE 8000
+#define SWAP_UINT32(x) (((x) >> 24) | (((x) & 0x00FF0000) >> 8) | (((x) & 0x0000FF00) << 8) | ((x) << 24))
 #define BUFFER_SIZE 4048
-#define SAMPLE 32000/SAMPLE_RATE
 
 uint8_t audio_isplaying();
 void audio_close();
