@@ -6,7 +6,7 @@ Play WAV audio with your LaFortuna by arp1g13! Works with RIOS!
 * avr-gcc
 * dfu-programmer
 * Working [FatFS](http://elm-chan.org/fsw/ff/00index_e.html) implementation (there's one included in this repo)
-* WAV files encoded in mono PCM 8-bit unsigned samples at 8KHz sample rate OR stereo at 16Khz sample rate
+* WAV files encoded in mono PCM 8-bit unsigned samples at 16KHz sample rate OR stereo at 8KHz sample rate
 
 ### How to build
 * On Linux/Mac, make using the Makefile provided should work fine provided dfu-programmer is in your PATH.
@@ -15,10 +15,13 @@ Play WAV audio with your LaFortuna by arp1g13! Works with RIOS!
 ### How to convert audio to correct format
 There are a few of options:
 
-1. Install [sox](http://sox.sourceforge.net/)
-2. a) Use [mono.sh](mono.sh) in a directory containing audio to convert the sound to a mono recording with the highest quality (16KHz sample rate). Windows users can adapt this easily to a batch script.
-b) Use [stereo.sh](stereo.sh) in a directory containg audtio to convert the sound to a STEREO recording with an 8KHz sample rate.
-3. Use audio editing software (windows sound recorder/audacity etc) to convert audio to PCM 8-bit unsigned samples at 8KHz sample rate.
+1. Install [sox](http://sox.sourceforge.net/) for options 2 and 3
+
+2. Use [mono.sh](mono.sh) in a directory containing audio to convert the sound to a mono recording with the highest quality (16KHz sample rate). Windows users can adapt this easily to a batch script.
+
+2. Use [stereo.sh](stereo.sh) in a directory containg audtio to convert the sound to a STEREO recording with an 8KHz sample rate.
+
+3. Use audio editing software (windows sound recorder/audacity etc) to convert audio to unsigned 8 bit PCM at a sample rate of either 8kHz for stereo or 16kHz for mono.
 
 
 ### How to use 
