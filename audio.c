@@ -2,7 +2,7 @@
  * https://github.com/fatcookies
  * 
  * La Fortuna (at90usb1286) @ 8MHz
- * Plays an 8bit/8000 sample PCM audio on OC1A and OC3A
+ * Plays PCM audio on OC1A and OC3A up to 16Hz sample rate with 8bit samples.
  * 
  * Adapted from:
  * http://avrpcm.blogspot.co.uk/2010/11/playing-8-bit-pcm-using-any-avr.html 
@@ -83,20 +83,22 @@ ISR(TIMER3_OVF_vect)
 /* Load a sample into PWM register*/
 ISR(TIMER1_OVF_vect)
 {		
-         sample_count--;
-         if (sample_count == 0) {
-             sample_count = sample_interval;           
+	--sample_count;
+    if (sample_count == 0) {
+    	sample_count = sample_interval;           
              
-             /*Load sample into RCH compare register */           
-             OCR1A = pcm_samples[sample++];
+    	/*Load sample into RCH compare register */           
+    	OCR1A = pcm_samples[sample];
+    	++sample;
 
-             /* If stereo, load another sample, otherwise LCH = RCH*/
-             OCR3A = number_channels == 2 ? pcm_samples[sample++] : OCR1A;
-             
-             if(sample > BUFFER_SIZE) {
-				sample=0;
-			 }
-         }
+    	/* If mono, LCH = RCH, else (stereo) then load next sample */
+    	if(number_channels == 1) {
+    		OCR3A = OCR1A;
+    	} else {
+    		OCR3A = pcm_samples[sample];
+    		++sample;
+    	}  			 
+    }
 }
 
 /* Return playing flag */
