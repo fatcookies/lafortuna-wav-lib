@@ -129,9 +129,6 @@ FRESULT audio_load(FIL* File) {
 	uint16_t read;  /* Number of bytes buffered (used to check eof)*/
 	uint8_t status; /* FRESULT of the buffer read */
 	
-	f_lseek(File,44);
-	f_read(File, &pcm_samples, BUFFER_SIZE ,&read);
-
 	f_lseek(File,22);
 	f_read(File, &number_channels, sizeof number_channels ,&read);
 	SWAP_UINT16(number_channels);
@@ -140,6 +137,9 @@ FRESULT audio_load(FIL* File) {
 	f_read(File, &sample_rate, sizeof sample_rate ,&read);
 	SWAP_UINT32(sample_rate);
 	sample_interval = 32000/sample_rate;
+	
+	f_lseek(File,44);
+	f_read(File, &pcm_samples, BUFFER_SIZE ,&read);
 	
 	pwm_init();
 	playing = 1;
