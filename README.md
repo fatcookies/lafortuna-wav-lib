@@ -23,6 +23,8 @@ There are a few of options:
 
 3. Use audio editing software (windows sound recorder/audacity etc) to convert audio to unsigned 8 bit PCM at a sample rate of either 8kHz for stereo or 16kHz for mono.
 
+4. EXPERIMENTAL: If you modify the bash scripts above you could attempt to encode audio at 32000 samples/sec in one channel (mono) or 16000 samples/sec in two channels (stereo). The LaFortuna should be able to play this audio but audio artifacts may be apparant.
+
 
 ### How to use 
 An example of the usage of this library is contained in [main.c in this repo](main.c)
